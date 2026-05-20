@@ -3,10 +3,16 @@ import { Poll, PollQuestion } from '../models/poll';
 import { DbPoll, DbQuestion } from '../models/db';
 import { supabase } from './supabase-client';
 
+/**
+ * Central service for all poll data.
+ * Loads polls from Supabase on startup, exposes reactive signals for the UI,
+ * and subscribes to realtime changes so all tabs stay in sync.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class PollService {
+  /** All available poll categories used for filtering and creating surveys. */
   readonly categories = [
     'Team activities',
     'Health & Wellness',
@@ -17,18 +23,24 @@ export class PollService {
     'Books & Media',
   ] as const;
 
+  /** Title of the most recently published poll, used to display the success toast. */
   readonly recentlyPublishedTitle = signal<string | null>(null);
+  /** True once the initial Supabase load has completed. */
   readonly loaded = signal(false);
+  /** All polls currently held in memory. */
   readonly polls = signal<Poll[]>([]);
 
+  /** Polls that have not yet expired. */
   readonly active = computed(() =>
     this.polls().filter((p) => !p.endsAt || p.endsAt.getTime() > Date.now()),
   );
 
+  /** Polls that have passed their end date. */
   readonly past = computed(() =>
     this.polls().filter((p) => p.endsAt !== undefined && p.endsAt.getTime() <= Date.now()),
   );
 
+  /** The three active polls with the nearest expiry date, sorted ascending. */
   readonly endingSoon = computed(() =>
     this.active()
       .filter((p): p is Poll & { endsAt: Date } => p.endsAt !== undefined)
@@ -41,10 +53,15 @@ export class PollService {
     this.subscribeRealtime();
   }
 
+  /** Returns the poll with the given id, or undefined if not loaded yet. */
   getPollById(id: number): Poll | undefined {
     return this.polls().find((p) => p.id === id);
   }
 
+  /**
+   * Persists a new poll to Supabase including all questions and answers.
+   * Inserts are sequential; the operation is aborted on the first failure.
+   */
   async addPoll(input: {
     name: string;
     description?: string;
@@ -60,18 +77,25 @@ export class PollService {
     }
   }
 
+  /** Clears the recently-published title to dismiss the success toast. */
   clearPublishedToast(): void {
     this.recentlyPublishedTitle.set(null);
   }
 
+  /** Returns true when the user has already voted on the given poll (persisted in localStorage). */
   hasVoted(pollId: number): boolean {
     return localStorage.getItem(`pollapp:voted:${pollId}`) === 'true';
   }
 
+  /** Persists the voted state for the given poll to localStorage. */
   markAsVoted(pollId: number): void {
     localStorage.setItem(`pollapp:voted:${pollId}`, 'true');
   }
 
+  /**
+   * Increments the vote count for each selected answer in Supabase.
+   * Reads current counts from memory to avoid a round-trip before the update.
+   */
   async vote(pollId: number, answerIds: number[]): Promise<void> {
     const poll = this.getPollById(pollId);
     if (!poll) {

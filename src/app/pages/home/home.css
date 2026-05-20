@@ -83,7 +83,7 @@
   animation: float-d 5.5s ease-in-out infinite;
 }
 
-/* Deko-Punkte */
+/* Decorative dots */
 .phone-scene__dot {
   position: absolute;
   border-radius: 50%;
@@ -364,10 +364,10 @@
   grid-template-columns: repeat(2, 1fr);
   align-content: start;
   gap: 12px;
-  /* Höhe für 3 Zeilen × 2 Spalten = 6 Karten sichtbar, Rest scrollbar */
+  /* Height for 3 rows × 2 columns = 6 cards visible, rest scrollable */
   height: 480px;
   overflow-y: auto;
-  /* native Scrollbar verstecken */
+  /* hide native scrollbar */
   scrollbar-width: none;
   scroll-behavior: smooth;
 }
@@ -390,7 +390,7 @@
   height: 64px;
   border-radius: 4px;
   background: var(--color-accent);
-  /* --scroll-progress wird vom Component (0..1) gesetzt */
+  /* --scroll-progress is set by the component (0..1) */
   top: calc(var(--scroll-progress, 0) * (100% - 64px));
   transition: top 0.24s ease-out;
 }
@@ -532,7 +532,7 @@
 }
 
 @media (max-width: 768px) {
-  /* Hover-Effekte deaktivieren, stattdessen :active beim Tap */
+  /* Disable hover effects, use :active for tap feedback instead */
   .tab:hover {
     background: #fee9d4;
   }
@@ -799,7 +799,7 @@
 }
 
 @media (max-width: 320px) {
-  /* Hover-Effekte deaktivieren, stattdessen :active beim Tap */
+  /* Disable hover effects, use :active for tap feedback instead */
   .tab:hover {
     background: #fee9d4;
   }

@@ -316,7 +316,7 @@
   gap: 8px;
 }
 
-/* Auf Desktop: Header-Wrapper verschwindet, Letter + Trash sind direkte Grid-Kinder */
+/* On desktop: header wrapper disappears, letter + trash become direct grid children */
 .answer-row__header {
   display: contents;
 }
@@ -327,7 +327,7 @@
   font-weight: 600;
 }
 
-/* Trash-Button im Header landet in Spalte 3, Input auto-placed in Spalte 2 */
+/* Trash button in header lands in column 3, input is auto-placed in column 2 */
 .answer-row__header .icon-btn {
   grid-column: 3;
   grid-row: 1;
@@ -819,7 +819,7 @@
     max-width: none;
   }
 
-  /* Answer rows: gleiche Struktur wie field (header + input darunter) */
+  /* Answer rows: same structure as field (header + input below) */
   .answer-row {
     display: flex;
     flex-direction: column;
@@ -853,13 +853,13 @@
     margin-top: 16px;
   }
 
-  /* Add next question – etwas breiter wegen längerem Text */
+  /* Add next question – slightly wider due to longer text */
   .add-question-slot .image-btn img {
     height: 34px;
     width: auto;
   }
 
-  /* Add answer – kleinerer Text-Link-Stil */
+  /* Add answer – smaller text-link style */
   .image-btn--add-answer img {
     height: 34px;
     width: auto;

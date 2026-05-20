@@ -1,4 +1,4 @@
-/* Header auf NewSurvey + SurveyDetail ausblenden — nur auf Desktop (>768px) */
+/* Hide header on NewSurvey + SurveyDetail — desktop only (>768px) */
 @media (min-width: 769px) {
   app-root:has(app-new-survey) app-header,
   app-root:has(app-survey-detail) app-header {
@@ -6,7 +6,7 @@
   }
 }
 
-/* Sehr schmale Viewports (≤320px) */
+/* Very narrow viewports (≤320px) */
 @media (max-width: 320px) {
   html {
     scrollbar-gutter: auto;

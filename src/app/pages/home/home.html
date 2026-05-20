@@ -71,7 +71,7 @@
       @for (poll of endingSoon(); track poll.id) {
         <app-survey-card [poll]="poll" variant="large" />
       } @empty {
-        <p class="empty-hint">Keine bald endenden Umfragen.</p>
+        <p class="empty-hint">No surveys ending soon.</p>
       }
     </div>
   </section>

@@ -1,5 +1,9 @@
 import { AbstractControl, FormArray, ValidationErrors, ValidatorFn } from '@angular/forms';
 
+/**
+ * Requires a non-empty trimmed string of at least `min` characters.
+ * Returns `{ required: true }` when blank, `{ minLength }` when too short.
+ */
 export function requiredText(min: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = (control.value ?? '').toString().trim();
@@ -13,6 +17,10 @@ export function requiredText(min: number): ValidatorFn {
   };
 }
 
+/**
+ * Ensures the control value is one of the allowed category strings.
+ * Returns `{ invalidCategory: true }` otherwise.
+ */
 export function requiredCategory(allowed: readonly string[]): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (!allowed.includes(control.value)) {
@@ -22,9 +30,12 @@ export function requiredCategory(allowed: readonly string[]): ValidatorFn {
   };
 }
 
-export const futureDate: ValidatorFn = (
-  control: AbstractControl,
-): ValidationErrors | null => {
+/**
+ * Ensures the date value lies strictly in the future (after today midnight).
+ * Empty values are treated as valid — combine with `requiredText` if the field is mandatory.
+ * Returns `{ pastDate: true }` when the date is today or earlier.
+ */
+export const futureDate: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const value = control.value;
   if (!value) {
     return null;
@@ -38,6 +49,10 @@ export const futureDate: ValidatorFn = (
   return null;
 };
 
+/**
+ * Validates that a `FormArray` has between `min` and `max` items (inclusive).
+ * Returns `{ tooFew }` or `{ tooMany }` on failure.
+ */
 export function arrayLength(min: number, max: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const arr = control as FormArray;
@@ -51,9 +66,11 @@ export function arrayLength(min: number, max: number): ValidatorFn {
   };
 }
 
-export const uniqueAnswers: ValidatorFn = (
-  control: AbstractControl,
-): ValidationErrors | null => {
+/**
+ * Validates that all non-empty answer texts within a `FormArray` are unique (case-insensitive).
+ * Returns `{ duplicates: true }` when at least two answers are identical.
+ */
+export const uniqueAnswers: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const arr = control as FormArray;
   const values = arr.controls
     .map((c) => (c.value ?? '').toString().trim().toLowerCase())
@@ -65,6 +82,11 @@ export const uniqueAnswers: ValidatorFn = (
   return null;
 };
 
+/**
+ * Requires that a form control has a selected answer.
+ * Handles both single-select (`number | null`) and multi-select (`number[]`) controls.
+ * Returns `{ requiredAnswer: true }` when nothing is selected.
+ */
 export function requiredAnswer(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const v = control.value;

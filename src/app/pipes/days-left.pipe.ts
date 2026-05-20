@@ -1,9 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+/**
+ * Converts an expiry date into a human-readable countdown string.
+ * Returns `'Ended'` when the date is in the past, `'Ends in N Days'` otherwise.
+ * Returns an empty string when no date is provided.
+ */
 @Pipe({
   name: 'daysLeft',
 })
 export class DaysLeftPipe implements PipeTransform {
+  /** @param value - the expiry date of the poll, or undefined for open-ended polls */
   transform(value: Date | undefined): string {
     if (!value) {
       return '';
