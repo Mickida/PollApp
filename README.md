@@ -1,59 +1,47 @@
-# Pollapp
+# 📊 PollApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+> Create surveys, collect votes, see results — live.
 
-## Development server
+![Angular](https://img.shields.io/badge/Angular-21-dd0031?logo=angular&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-realtime-3ecf8e?logo=supabase&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)
 
-To start a local development server, run:
+---
+
+## What it does
+
+PollApp lets you create and share surveys in seconds. Votes update live across all open tabs — no refresh needed.
+
+- **Create** surveys with multiple questions and up to 6 answers each
+- **Vote** on active surveys (one vote per browser session)
+- **See results** as a live bar chart
+- **Filter** by category or status (active / past)
+- **Responsive** down to 320 px
+
+---
+
+## Stack
+
+| Layer | Tech |
+|---|---|
+| Frontend | Angular 21 · Signals · Reactive Forms |
+| Backend | Supabase (PostgreSQL + Realtime + RLS) |
+
+---
+
+## Getting started
 
 ```bash
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open `http://localhost:4200`.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Production build
 
 ```bash
-ng generate component component-name
+ng build --base-href=/your-deploy-path/
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Output: `dist/pollapp/browser/`
