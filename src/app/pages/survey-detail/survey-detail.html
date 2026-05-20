@@ -1,6 +1,6 @@
 <header class="page-header">
   <a routerLink="/" class="page-header__logo" aria-label="Poll App – Startseite">
-    <img src="/images/survey/Logo.png" alt="Poll App" />
+    <img src="images/survey/Logo.png" alt="Poll App" />
   </a>
   <a
     href="/new"
@@ -9,9 +9,9 @@
     (click)="onCtaClick($event)"
     aria-label="Create survey"
   >
-    <img class="page-header__cta__state page-header__cta__state--default" src="/images/hero/hero_btns/ns-default.png" alt="Create survey" />
-    <img class="page-header__cta__state page-header__cta__state--hover" src="/images/hero/hero_btns/ns-hover.png" alt="" aria-hidden="true" />
-    <img class="page-header__cta__state page-header__cta__state--active" src="/images/hero/hero_btns/ns-hover-checked.png" alt="" aria-hidden="true" />
+    <img class="page-header__cta__state page-header__cta__state--default" src="images/hero/hero_btns/ns-default.png" alt="Create survey" />
+    <img class="page-header__cta__state page-header__cta__state--hover" src="images/hero/hero_btns/ns-hover.png" alt="" aria-hidden="true" />
+    <img class="page-header__cta__state page-header__cta__state--active" src="images/hero/hero_btns/ns-hover-checked.png" alt="" aria-hidden="true" />
   </a>
 </header>
 
@@ -34,10 +34,10 @@
         @if (isPast()) {
           <span class="badge badge--ended">Ended</span>
         } @else {
-          <img src="/images/survey/published.png" alt="Published" class="badge-published-img" />
+          <img src="images/survey/published.png" alt="Published" class="badge-published-img" />
         }
         <a routerLink="/" class="form-card__close-mobile" aria-label="Zurück zur Startseite">
-          <img src="/images/responisve/close.png" alt="" aria-hidden="true" />
+          <img src="images/responisve/close.png" alt="" aria-hidden="true" />
         </a>
       </div>
 
@@ -112,8 +112,8 @@
               [disabled]="surveyForm.invalid"
               aria-label="Complete survey"
             >
-              <img src="/images/survey/complete.png" alt="Complete survey" class="submit-btn__img submit-btn__img--desktop" />
-              <img src="/images/responisve/complete.png" alt="" aria-hidden="true" class="submit-btn__img submit-btn__img--mobile" />
+              <img src="images/survey/complete.png" alt="Complete survey" class="submit-btn__img submit-btn__img--desktop" />
+              <img src="images/responisve/complete.png" alt="" aria-hidden="true" class="submit-btn__img submit-btn__img--mobile" />
             </button>
           </div>
         }
@@ -127,9 +127,9 @@
       [attr.aria-expanded]="resultsExpanded()"
     >
       @if (resultsExpanded()) {
-        <img src="/images/responisve/close-results.png" alt="Close results" class="results-toggle__img" />
+        <img src="images/responisve/close-results.png" alt="Close results" class="results-toggle__img" />
       } @else {
-        <img src="/images/responisve/see-results.png" alt="See results" class="results-toggle__img" />
+        <img src="images/responisve/see-results.png" alt="See results" class="results-toggle__img" />
       }
     </button>
 
