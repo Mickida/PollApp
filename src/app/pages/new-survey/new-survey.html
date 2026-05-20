@@ -137,8 +137,8 @@
             <button
               type="button"
               class="icon-btn"
-              (click)="removeQuestion(i)"
-              [disabled]="questions.length <= 1"
+              (click)="handleQuestionAction(i)"
+              [disabled]="questions.length <= 1 && !questionAt(i).get('text')?.value"
               aria-label="Remove question"
             ></button>
           </div>

@@ -83,6 +83,40 @@ export class SurveyDetail implements OnInit {
     return p.questions.some((q) => q.answers.some((a) => a.votes > 0));
   });
 
+  /** Current form selections — updated on every value change, drives the live preview. */
+  private readonly formSnapshot = signal<Array<number | number[] | null> | null>(null);
+
+  /** Poll with the user's current selections added as +1 preview votes. Falls back to the real poll when readonly or no selection exists. */
+  readonly previewPoll = computed<Poll | null>(() => {
+    const p = this.poll();
+    const snapshot = this.formSnapshot();
+    if (!p) return null;
+    if (this.isReadonly() || !snapshot) return p;
+    return this.buildPreviewPoll(p, snapshot);
+  });
+
+  /** Returns a shallow copy of the poll with +1 votes on every selected answer. */
+  private buildPreviewPoll(p: Poll, selections: Array<number | number[] | null>): Poll {
+    return {
+      ...p,
+      questions: p.questions.map((q, qi) => {
+        const selected = selections[qi] ?? null;
+        const selectedIds = Array.isArray(selected)
+          ? selected
+          : selected !== null
+            ? [selected]
+            : [];
+        return {
+          ...q,
+          answers: q.answers.map((a) => ({
+            ...a,
+            votes: selectedIds.includes(a.id) ? a.votes + 1 : a.votes,
+          })),
+        };
+      }),
+    };
+  }
+
   ngOnInit(): void {
     this.tryBuildForm();
   }
@@ -122,6 +156,10 @@ export class SurveyDetail implements OnInit {
         arr.push(this.fb.control<number | null>(null, { validators: [requiredAnswer()] }));
       }
     }
+    this.surveyForm.valueChanges.subscribe(() => {
+      const raw = this.surveyForm.getRawValue() as { questions: Array<number | number[] | null> };
+      this.formSnapshot.set(raw.questions ?? null);
+    });
   }
 
   /** Returns the questions FormArray from the voting form. */

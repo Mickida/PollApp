@@ -135,12 +135,12 @@
 
     @if (resultsExpanded()) {
       <div class="results-mobile">
-        <app-results-chart [poll]="p" />
+        <app-results-chart [poll]="previewPoll() ?? p" />
       </div>
     }
 
     <aside class="results-aside" [class.results-aside--has-results]="hasResults()">
-      <app-results-chart [poll]="p" />
+      <app-results-chart [poll]="previewPoll() ?? p" />
     </aside>
   </div>
 

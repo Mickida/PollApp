@@ -83,6 +83,23 @@ export class NewSurvey {
     }
   }
 
+  /** Clears the text field of the question at the given index without removing the row. */
+  clearQuestionText(index: number): void {
+    this.questionAt(index).get('text')?.setValue('');
+  }
+
+  /**
+   * When only 1 question remains, clears its text field instead of deleting the row.
+   * With 2+ questions, deletes the row as usual.
+   */
+  handleQuestionAction(index: number): void {
+    if (this.questions.length <= 1) {
+      this.clearQuestionText(index);
+    } else {
+      this.removeQuestion(index);
+    }
+  }
+
   /** Appends a new blank answer to the given question (max 6 answers). */
   addAnswer(qIndex: number): void {
     const answers = this.answersAt(qIndex);
