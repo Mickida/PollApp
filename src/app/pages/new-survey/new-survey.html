@@ -178,6 +178,7 @@
             }
           </div>
 
+          <span class="field__error" [style.visibility]="hasEmptyAnswer(i) ? 'visible' : 'hidden'">Please fill in all answers.</span>
           <span class="field__error" [style.visibility]="(answersAt(i).touched && answersAt(i).errors?.['duplicates']) ? 'visible' : 'hidden'">Answers must be unique.</span>
 
           <button
@@ -207,7 +208,10 @@
   </div>
 
   <footer class="new-survey__footer">
-    <button type="submit" class="image-btn" aria-label="Publish">
+    @if (publishError()) {
+      <span class="publish-error">Something went wrong. Please try again.</span>
+    }
+    <button type="submit" class="image-btn" [disabled]="publishing()" aria-label="Publish">
       <img src="images/new-servey/publish.png" alt="Publish" class="publish-img" />
       <img src="images/responisve/publish.png" alt="Publish" class="publish-img--mobile" />
     </button>

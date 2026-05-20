@@ -389,7 +389,15 @@
 .new-survey__footer {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
   margin-top: 24px;
+}
+
+.publish-error {
+  color: var(--color-accent);
+  font-size: 14px;
+  font-weight: 600;
 }
 
 /* ===== Category Dropdown ===== */

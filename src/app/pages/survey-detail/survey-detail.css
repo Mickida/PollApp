@@ -48,7 +48,12 @@
   transition: opacity 300ms ease-out;
 }
 
-.page-header__cta:hover .page-header__cta__state--hover,
+@media (hover: hover) {
+  .page-header__cta:hover .page-header__cta__state--hover {
+    opacity: 1;
+  }
+}
+
 .page-header__cta:focus-visible .page-header__cta__state--hover {
   opacity: 1;
 }

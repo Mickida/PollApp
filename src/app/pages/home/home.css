@@ -193,7 +193,12 @@
   transition: opacity 300ms ease-out;
 }
 
-.hero__cta:hover .hero__cta__state--hover,
+@media (hover: hover) {
+  .hero__cta:hover .hero__cta__state--hover {
+    opacity: 1;
+  }
+}
+
 .hero__cta:focus-visible .hero__cta__state--hover {
   opacity: 1;
 }

@@ -27,6 +27,8 @@ export class NewSurvey {
   readonly catOpen = signal(false);
   /** Controls visibility of the "poll published" success toast. */
   readonly showToast = signal(false);
+  readonly publishError = signal(false);
+  readonly publishing = signal(false);
 
   /** Toggles the category dropdown open/closed. */
   toggleCatDropdown(): void {
@@ -103,12 +105,24 @@ export class NewSurvey {
   }
 
   /** Validates the form, persists the poll, shows the toast, then redirects home. */
-  onPublish(): void {
+  async onPublish(): Promise<void> {
     this.surveyForm.markAllAsTouched();
     if (this.surveyForm.invalid) return;
-    this.pollService.addPoll(this.buildAddPollInput());
+    this.publishing.set(true);
+    this.publishError.set(false);
+    const ok = await this.pollService.addPoll(this.buildAddPollInput());
+    this.publishing.set(false);
+    if (!ok) {
+      this.publishError.set(true);
+      return;
+    }
     this.showToast.set(true);
     setTimeout(() => this.router.navigate(['/']), 2500);
+  }
+
+  /** Returns true when any answer in the given question is touched and empty. */
+  protected hasEmptyAnswer(qi: number): boolean {
+    return this.answersAt(qi).controls.some((c) => c.touched && c.invalid);
   }
 
   /** Maps the raw form value to the shape expected by PollService.addPoll. */

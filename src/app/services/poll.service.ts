@@ -68,13 +68,14 @@ export class PollService {
     category: string;
     endDate?: string;
     questions: { text: string; allowMultiple: boolean; answers: string[] }[];
-  }): Promise<void> {
+  }): Promise<boolean> {
     const pollId = await this.insertPoll(input);
-    if (pollId === null) return;
+    if (pollId === null) return false;
     for (let qi = 0; qi < input.questions.length; qi++) {
       const ok = await this.insertQuestion(pollId, input.questions[qi], qi + 1);
-      if (!ok) return;
+      if (!ok) return false;
     }
+    return true;
   }
 
   /** Clears the recently-published title to dismiss the success toast. */
