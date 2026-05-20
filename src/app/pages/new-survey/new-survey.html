@@ -47,11 +47,9 @@
           class="field__input"
           formControlName="name"
         />
-        @if (surveyForm.controls.name.touched && surveyForm.controls.name.invalid) {
-          <span class="field__error">
-            Please enter a survey name (min. 3 chars).
-          </span>
-        }
+        <span class="field__error" [style.visibility]="(surveyForm.controls.name.touched && surveyForm.controls.name.invalid) ? 'visible' : 'hidden'">
+          Please enter a survey name (min. 3 chars).
+        </span>
       </label>
 
       <div class="field-row-2">
@@ -69,10 +67,9 @@
             type="date"
             class="field__input field__input--small"
             formControlName="endDate"
+            [min]="today"
           />
-          @if (surveyForm.controls.endDate.touched && surveyForm.controls.endDate.invalid) {
-            <span class="field__error">End date must be in the future.</span>
-          }
+          <span class="field__error" [style.visibility]="(surveyForm.controls.endDate.touched && surveyForm.controls.endDate.invalid) ? 'visible' : 'hidden'">End date must be in the future.</span>
         </label>
 
         <div class="field cat-field">
@@ -106,9 +103,7 @@
               </ul>
             }
           </div>
-          @if (surveyForm.controls.category.touched && surveyForm.controls.category.invalid) {
-            <span class="field__error">Please choose a category.</span>
-          }
+          <span class="field__error" [style.visibility]="(surveyForm.controls.category.touched && surveyForm.controls.category.invalid) ? 'visible' : 'hidden'">Please choose a category.</span>
         </div>
       </div>
     </div>
@@ -151,9 +146,7 @@
             formControlName="text"
             placeholder="Which date would work best for you?"
           />
-          @if (questionAt(i).get('text')?.touched && questionAt(i).get('text')?.invalid) {
-            <span class="field__error">Question text is required (min. 3 chars).</span>
-          }
+          <span class="field__error" [style.visibility]="(questionAt(i).get('text')?.touched && questionAt(i).get('text')?.invalid) ? 'visible' : 'hidden'">Question text is required (min. 3 chars).</span>
 
           <div class="question-card__answers-header">
             <span class="field__label">Answers</span>
@@ -185,9 +178,7 @@
             }
           </div>
 
-          @if (answersAt(i).touched && answersAt(i).errors?.['duplicates']) {
-            <span class="field__error">Answers must be unique.</span>
-          }
+          <span class="field__error" [style.visibility]="(answersAt(i).touched && answersAt(i).errors?.['duplicates']) ? 'visible' : 'hidden'">Answers must be unique.</span>
 
           <button
             type="button"

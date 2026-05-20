@@ -230,23 +230,23 @@
   margin: 0;
   flex-shrink: 0;
   cursor: pointer;
-  background: url('/images/new-servey/box-default.png') center / contain no-repeat;
+  background: url('/angular-projects/PollApp/images/new-servey/box-default.png') center / contain no-repeat;
   transition: background-image 0.1s;
 }
 
 .answer input[type='checkbox']:hover,
 .answer input[type='radio']:hover {
-  background-image: url('/images/new-servey/box-hover.png');
+  background-image: url('/angular-projects/PollApp/images/new-servey/box-hover.png');
 }
 
 .answer input[type='checkbox']:checked,
 .answer input[type='radio']:checked {
-  background-image: url('/images/new-servey/box-checked.png');
+  background-image: url('/angular-projects/PollApp/images/new-servey/box-checked.png');
 }
 
 .answer input[type='checkbox']:checked:hover,
 .answer input[type='radio']:checked:hover {
-  background-image: url('/images/new-servey/box-checked.png');
+  background-image: url('/angular-projects/PollApp/images/new-servey/box-checked.png');
 }
 
 .answer__letter {

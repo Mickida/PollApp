@@ -76,6 +76,6 @@ export class Home {
     event.preventDefault();
     if (this.ctaClicked()) return;
     this.ctaClicked.set(true);
-    setTimeout(() => this.router.navigate(['/new']), 1000);
+    setTimeout(() => this.router.navigate(['/new']), 200);
   }
 }

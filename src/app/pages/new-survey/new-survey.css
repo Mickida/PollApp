@@ -221,7 +221,7 @@
 }
 
 .icon-btn {
-  background: url('/images/new-servey/trash-default.png') center / contain no-repeat;
+  background: url('/angular-projects/PollApp/images/new-servey/trash-default.png') center / contain no-repeat;
   border: none;
   cursor: pointer;
   width: 28px;
@@ -231,7 +231,7 @@
 }
 
 .icon-btn:hover {
-  background-image: url('/images/new-servey/trash-hover.png');
+  background-image: url('/angular-projects/PollApp/images/new-servey/trash-hover.png');
 }
 
 .icon-btn:disabled {
@@ -240,7 +240,7 @@
 }
 
 .icon-btn:disabled:hover {
-  background-image: url('/images/new-servey/trash-default.png');
+  background-image: url('/angular-projects/PollApp/images/new-servey/trash-default.png');
 }
 
 .question-card {
@@ -279,7 +279,7 @@
   margin: 0;
   flex-shrink: 0;
   cursor: pointer;
-  background: url('/images/new-servey/box-default.png') center / contain no-repeat;
+  background: url('/angular-projects/PollApp/images/new-servey/box-default.png') center / contain no-repeat;
   filter: brightness(0) invert(1);
   transition:
     background-image 0.1s,
@@ -292,15 +292,15 @@
 }
 
 .checkbox input[type='checkbox']:hover {
-  background-image: url('/images/new-servey/box-hover.png');
+  background-image: url('/angular-projects/PollApp/images/new-servey/box-hover.png');
 }
 
 .checkbox input[type='checkbox']:checked {
-  background-image: url('/images/new-servey/box-checked.png');
+  background-image: url('/angular-projects/PollApp/images/new-servey/box-checked.png');
 }
 
 .checkbox input[type='checkbox']:checked:hover {
-  background-image: url('/images/new-servey/box-checked.png');
+  background-image: url('/angular-projects/PollApp/images/new-servey/box-checked.png');
 }
 
 .answers-list {

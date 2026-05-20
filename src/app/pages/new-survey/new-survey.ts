@@ -23,6 +23,7 @@ export class NewSurvey {
   private readonly router = inject(Router);
 
   readonly categories = this.pollService.categories;
+  readonly today = new Date().toISOString().split('T')[0];
   readonly catOpen = signal(false);
   /** Controls visibility of the "poll published" success toast. */
   readonly showToast = signal(false);
@@ -98,7 +99,7 @@ export class NewSurvey {
 
   /** Navigates back to the home page after a short exit-animation delay. */
   onCancel(): void {
-    setTimeout(() => this.router.navigate(['/']), 180);
+    setTimeout(() => this.router.navigate(['/']), 100);
   }
 
   /** Validates the form, persists the poll, shows the toast, then redirects home. */
