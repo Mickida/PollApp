@@ -1,7 +1,5 @@
 # 📊 PollApp
 
-> Create surveys, collect votes, see results — live.
-
 ![Angular](https://img.shields.io/badge/Angular-21-dd0031?logo=angular&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-realtime-3ecf8e?logo=supabase&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)
@@ -22,10 +20,10 @@ PollApp lets you create and share surveys in seconds. Votes update live across a
 
 ## Stack
 
-| Layer | Tech |
-|---|---|
-| Frontend | Angular 21 · Signals · Reactive Forms |
-| Backend | Supabase (PostgreSQL + Realtime + RLS) |
+| Layer    | Tech                                   |
+| -------- | -------------------------------------- |
+| Frontend | Angular 21 · Signals · Reactive Forms  |
+| Backend  | Supabase (PostgreSQL + Realtime + RLS) |
 
 ---
 
