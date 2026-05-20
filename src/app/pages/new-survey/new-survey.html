@@ -32,9 +32,9 @@
 
   <div class="new-survey__inner">
     <div class="new-survey__col">
-      <label class="field">
+      <div class="field">
         <div class="field__header">
-          <span class="field__label">Survey name</span>
+          <label class="field__label" for="survey-name">Survey name</label>
           <button
             type="button"
             class="icon-btn"
@@ -43,6 +43,7 @@
           ></button>
         </div>
         <input
+          id="survey-name"
           type="text"
           class="field__input"
           formControlName="name"
@@ -50,12 +51,12 @@
         <span class="field__error" [style.visibility]="(surveyForm.controls.name.touched && surveyForm.controls.name.invalid) ? 'visible' : 'hidden'">
           Please enter a survey name (min. 3 chars).
         </span>
-      </label>
+      </div>
 
       <div class="field-row-2">
-        <label class="field">
+        <div class="field">
           <div class="field__header">
-            <span class="field__label">Set end date <em>(optional)</em></span>
+            <label class="field__label" for="survey-end-date">Set end date <em>(optional)</em></label>
             <button
               type="button"
               class="icon-btn"
@@ -64,13 +65,14 @@
             ></button>
           </div>
           <input
+            id="survey-end-date"
             type="date"
             class="field__input field__input--small"
             formControlName="endDate"
             [min]="today"
           />
           <span class="field__error" [style.visibility]="(surveyForm.controls.endDate.touched && surveyForm.controls.endDate.invalid) ? 'visible' : 'hidden'">End date must be in the future.</span>
-        </label>
+        </div>
 
         <div class="field cat-field">
           <div class="cat-dropdown">
@@ -109,9 +111,9 @@
     </div>
 
     <div class="new-survey__col">
-      <label class="field">
+      <div class="field">
         <div class="field__header">
-          <span class="field__label">Describing text <em>(optional)</em></span>
+          <label class="field__label" for="survey-description">Describing text <em>(optional)</em></label>
           <button
             type="button"
             class="icon-btn"
@@ -120,10 +122,11 @@
           ></button>
         </div>
         <textarea
+          id="survey-description"
           class="field__input field__input--textarea"
           formControlName="description"
         ></textarea>
-      </label>
+      </div>
     </div>
 
     <ng-container formArrayName="questions">
