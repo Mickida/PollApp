@@ -1,0 +1,225 @@
+@if (showToast()) {
+  <div class="toast-desktop" role="status" aria-live="polite">
+    <p class="toast__text">Your survey is now published</p>
+    <button type="button" class="toast__close toast__close--top" (click)="closeToast()" aria-label="Close">
+      <img src="/images/new-servey/close.png" alt="" aria-hidden="true" />
+    </button>
+  </div>
+  <div class="toast-mobile" role="status" aria-live="polite">
+    <p class="toast__text">Your survey is now<br />published!</p>
+    <button type="button" class="toast__close toast__close--top" (click)="closeToast()" aria-label="Close">
+      <img src="/images/new-servey/close.png" alt="" aria-hidden="true" />
+    </button>
+  </div>
+}
+
+<header class="page-header">
+  <a routerLink="/" class="page-header__logo" aria-label="Poll App – Startseite">
+    <img src="/images/survey/Logo.png" alt="Poll App" />
+  </a>
+</header>
+
+<div class="page-content">
+<form [formGroup]="surveyForm" (ngSubmit)="onPublish()" class="new-survey">
+  <header class="new-survey__header">
+    <img src="images/new-servey/draft.png" alt="Draft" class="new-survey__draft-badge" />
+    <h1 class="new-survey__title">Create new survey</h1>
+    <button type="button" class="new-survey__cancel" (click)="onCancel()" aria-label="Cancel">
+      <img src="images/new-servey/Secpondary button.png" alt="Cancel" class="new-survey__cancel-img" />
+      <img src="/images/responisve/ns-close.png" alt="" aria-hidden="true" class="new-survey__cancel-x" />
+    </button>
+  </header>
+
+  <div class="new-survey__inner">
+    <div class="new-survey__col">
+      <label class="field">
+        <div class="field__header">
+          <span class="field__label">Survey name</span>
+          <button
+            type="button"
+            class="icon-btn"
+            (click)="surveyForm.controls.name.setValue('')"
+            aria-label="Clear name"
+          ></button>
+        </div>
+        <input
+          type="text"
+          class="field__input"
+          formControlName="name"
+        />
+        @if (surveyForm.controls.name.touched && surveyForm.controls.name.invalid) {
+          <span class="field__error">
+            Please enter a survey name (min. 3 chars).
+          </span>
+        }
+      </label>
+
+      <div class="field-row-2">
+        <label class="field">
+          <div class="field__header">
+            <span class="field__label">Set end date <em>(optional)</em></span>
+            <button
+              type="button"
+              class="icon-btn"
+              (click)="surveyForm.controls.endDate.setValue('')"
+              aria-label="Clear end date"
+            ></button>
+          </div>
+          <input
+            type="date"
+            class="field__input field__input--small"
+            formControlName="endDate"
+          />
+          @if (surveyForm.controls.endDate.touched && surveyForm.controls.endDate.invalid) {
+            <span class="field__error">End date must be in the future.</span>
+          }
+        </label>
+
+        <div class="field cat-field">
+          <div class="cat-dropdown">
+            <button
+              type="button"
+              class="cat-dropdown__trigger"
+              (click)="toggleCatDropdown()"
+              [attr.aria-expanded]="catOpen()"
+              aria-haspopup="listbox"
+            >
+              <span>{{ surveyForm.controls.category.value || 'Choose category' }}</span>
+              <span class="cat-dropdown__arrow">{{ catOpen() ? '▲' : '▼' }}</span>
+            </button>
+            @if (catOpen()) {
+              <ul class="cat-dropdown__list" role="listbox">
+                @for (cat of categories; track cat) {
+                  <li>
+                    <button
+                      type="button"
+                      class="cat-dropdown__item"
+                      [class.cat-dropdown__item--active]="surveyForm.controls.category.value === cat"
+                      (click)="selectCat(cat)"
+                      role="option"
+                      [attr.aria-selected]="surveyForm.controls.category.value === cat"
+                    >
+                      {{ cat }}
+                    </button>
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+          @if (surveyForm.controls.category.touched && surveyForm.controls.category.invalid) {
+            <span class="field__error">Please choose a category.</span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="new-survey__col">
+      <label class="field">
+        <div class="field__header">
+          <span class="field__label">Describing text <em>(optional)</em></span>
+          <button
+            type="button"
+            class="icon-btn"
+            (click)="surveyForm.controls.description.setValue('')"
+            aria-label="Clear description"
+          ></button>
+        </div>
+        <textarea
+          class="field__input field__input--textarea"
+          formControlName="description"
+        ></textarea>
+      </label>
+    </div>
+
+    <ng-container formArrayName="questions">
+      @for (q of questions.controls; track q; let i = $index) {
+        <div class="new-survey__col question-card" [formGroupName]="i">
+          <div class="question-card__header">
+            <span class="question-card__index">{{ i + 1 }}. Question</span>
+            <button
+              type="button"
+              class="icon-btn"
+              (click)="removeQuestion(i)"
+              [disabled]="questions.length <= 1"
+              aria-label="Remove question"
+            ></button>
+          </div>
+
+          <input
+            type="text"
+            class="field__input"
+            formControlName="text"
+            placeholder="Which date would work best for you?"
+          />
+          @if (questionAt(i).get('text')?.touched && questionAt(i).get('text')?.invalid) {
+            <span class="field__error">Question text is required (min. 3 chars).</span>
+          }
+
+          <div class="question-card__answers-header">
+            <span class="field__label">Answers</span>
+            <label class="checkbox">
+              <input type="checkbox" formControlName="allowMultiple" />
+              <span>Allow multiple answers.</span>
+            </label>
+          </div>
+
+          <div formArrayName="answers" class="answers-list">
+            @for (ans of answersAt(i).controls; track ans; let j = $index) {
+              <div class="answer-row">
+                <div class="answer-row__header">
+                  <span class="answer-row__letter">{{ ['A','B','C','D','E','F'][j] }}.</span>
+                  <button
+                    type="button"
+                    class="icon-btn"
+                    (click)="removeAnswer(i, j)"
+                    [disabled]="answersAt(i).length <= 2"
+                    aria-label="Remove answer"
+                  ></button>
+                </div>
+                <input
+                  type="text"
+                  class="field__input"
+                  [formControlName]="j"
+                />
+              </div>
+            }
+          </div>
+
+          @if (answersAt(i).touched && answersAt(i).errors?.['duplicates']) {
+            <span class="field__error">Answers must be unique.</span>
+          }
+
+          <button
+            type="button"
+            class="image-btn image-btn--add-answer"
+            (click)="addAnswer(i)"
+            [disabled]="answersAt(i).length >= 6"
+            aria-label="Add answer"
+          >
+            <img src="images/new-servey/add-answer.png" alt="Add answer" />
+          </button>
+        </div>
+      }
+    </ng-container>
+
+    <div class="new-survey__col add-question-slot">
+      <button
+        type="button"
+        class="image-btn"
+        (click)="addQuestion()"
+        [disabled]="questions.length >= 10"
+        aria-label="Add next question"
+      >
+        <img src="images/new-servey/add-next-question.png" alt="Add next question" />
+      </button>
+    </div>
+  </div>
+
+  <footer class="new-survey__footer">
+    <button type="submit" class="image-btn" aria-label="Publish">
+      <img src="images/new-servey/publish.png" alt="Publish" class="publish-img" />
+      <img src="/images/responisve/publish.png" alt="Publish" class="publish-img--mobile" />
+    </button>
+  </footer>
+</form>
+</div>

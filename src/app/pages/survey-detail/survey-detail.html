@@ -1,0 +1,148 @@
+<header class="page-header">
+  <a routerLink="/" class="page-header__logo" aria-label="Poll App – Startseite">
+    <img src="/images/survey/Logo.png" alt="Poll App" />
+  </a>
+  <a
+    href="/new"
+    class="page-header__cta"
+    [class.page-header__cta--clicked]="ctaClicked()"
+    (click)="onCtaClick($event)"
+    aria-label="Create survey"
+  >
+    <img class="page-header__cta__state page-header__cta__state--default" src="/images/hero/hero_btns/ns-default.png" alt="Create survey" />
+    <img class="page-header__cta__state page-header__cta__state--hover" src="/images/hero/hero_btns/ns-hover.png" alt="" aria-hidden="true" />
+    <img class="page-header__cta__state page-header__cta__state--active" src="/images/hero/hero_btns/ns-hover-checked.png" alt="" aria-hidden="true" />
+  </a>
+</header>
+
+<div class="page-content">
+@if (state() === 'loading') {
+  <div class="status-block">Loading…</div>
+}
+
+@else if (state() === 'notFound') {
+  <div class="status-block">
+    <p>Survey not found.</p>
+    <a routerLink="/" class="back-link">Back to home</a>
+  </div>
+}
+
+@else if (state() === 'ready' && poll(); as p) {
+  <div class="layout">
+    <section class="form-card">
+      <div class="badge-row">
+        @if (isPast()) {
+          <span class="badge badge--ended">Ended</span>
+        } @else {
+          <img src="/images/survey/published.png" alt="Published" class="badge-published-img" />
+        }
+        <a routerLink="/" class="form-card__close-mobile" aria-label="Zurück zur Startseite">
+          <img src="/images/responisve/close.png" alt="" aria-hidden="true" />
+        </a>
+      </div>
+
+      <div class="meta-row">
+        @if (p.endsAt) {
+          <span class="meta">
+            {{ isPast() ? 'Ended on ' : 'Ends on ' }}{{ p.endsAt | date:'dd.MM.yyyy' }}
+          </span>
+        }
+        <span class="meta meta--right">Category: {{ p.category }}</span>
+      </div>
+
+      <h1 class="title">{{ p.title }}</h1>
+      @if (p.description) {
+        <p class="description">{{ p.description }}</p>
+      }
+
+      <form [formGroup]="surveyForm" (ngSubmit)="submit()" class="questions-grid">
+        <div formArrayName="questions" class="questions-grid__inner">
+          @for (q of p.questions; track q.id; let qi = $index) {
+            <fieldset class="question">
+              <legend class="question__title">
+                <span class="question__num">{{ qi + 1 }}.</span>
+                <span class="question__text">{{ q.text }}</span>
+              </legend>
+              @if (q.allowMultiple) {
+                <p class="question__hint">
+                  <span class="question__num" aria-hidden="true">{{ qi + 1 }}.</span>
+                  <span>More than one answers are possible.</span>
+                </p>
+              }
+              <div class="answers">
+                @for (ans of q.answers; track ans.id; let ai = $index) {
+                  <label class="answer">
+                    @if (q.allowMultiple) {
+                      <input
+                        type="checkbox"
+                        [checked]="isChecked(qi, ans.id)"
+                        [disabled]="isReadonly()"
+                        (change)="toggleCheckbox(qi, ans.id, $any($event.target).checked)"
+                      />
+                    } @else {
+                      <input
+                        type="radio"
+                        [name]="'q-' + qi"
+                        [value]="ans.id"
+                        [formControl]="questionControl(qi)"
+                      />
+                    }
+                    <span class="answer__letter">{{ letter(ai) }}.</span>
+                    <span class="answer__text">{{ ans.text }}</span>
+                  </label>
+                }
+              </div>
+            </fieldset>
+          }
+        </div>
+
+        @if (isReadonly()) {
+          <p class="readonly-hint">
+            @if (isPast()) {
+              This survey has ended.
+            } @else {
+              You voted on this survey.
+            }
+          </p>
+        } @else {
+          <div class="actions">
+            <button
+              type="submit"
+              class="submit-btn"
+              [disabled]="surveyForm.invalid"
+              aria-label="Complete survey"
+            >
+              <img src="/images/survey/complete.png" alt="Complete survey" class="submit-btn__img submit-btn__img--desktop" />
+              <img src="/images/responisve/complete.png" alt="" aria-hidden="true" class="submit-btn__img submit-btn__img--mobile" />
+            </button>
+          </div>
+        }
+      </form>
+    </section>
+
+    <button
+      type="button"
+      class="results-toggle"
+      (click)="toggleResults()"
+      [attr.aria-expanded]="resultsExpanded()"
+    >
+      @if (resultsExpanded()) {
+        <img src="/images/responisve/close-results.png" alt="Close results" class="results-toggle__img" />
+      } @else {
+        <img src="/images/responisve/see-results.png" alt="See results" class="results-toggle__img" />
+      }
+    </button>
+
+    @if (resultsExpanded()) {
+      <div class="results-mobile">
+        <app-results-chart [poll]="p" />
+      </div>
+    }
+
+    <aside class="results-aside" [class.results-aside--has-results]="hasResults()">
+      <app-results-chart [poll]="p" />
+    </aside>
+  </div>
+
+}
+</div>

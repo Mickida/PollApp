@@ -1,0 +1,29 @@
+/* Header auf NewSurvey + SurveyDetail ausblenden — nur auf Desktop (>768px) */
+@media (min-width: 769px) {
+  app-root:has(app-new-survey) app-header,
+  app-root:has(app-survey-detail) app-header {
+    display: none;
+  }
+}
+
+/* Sehr schmale Viewports (≤320px) */
+@media (max-width: 320px) {
+  html {
+    scrollbar-gutter: auto;
+  }
+
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  body:has(app-survey-detail),
+  body:has(app-new-survey) {
+    background: #fefdff;
+  }
+
+  app-root:has(app-survey-detail) app-header,
+  app-root:has(app-new-survey) app-header {
+    display: none;
+  }
+}

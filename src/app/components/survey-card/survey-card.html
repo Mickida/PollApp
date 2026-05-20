@@ -1,0 +1,31 @@
+@if (isPast()) {
+  <article
+    class="card card--past"
+    [class.card--large]="variant() === 'large'"
+    [class.card--compact]="variant() === 'compact'"
+  >
+    <div class="card__header">
+      <p class="card__category">{{ poll().category }}</p>
+      <h3 class="card__title">{{ poll().title }}</h3>
+    </div>
+    @if (poll().endsAt) {
+      <span class="card__badge">{{ poll().endsAt | daysLeft }}</span>
+    }
+  </article>
+} @else {
+  <a class="survey-card-link" [routerLink]="['/survey', poll().id]">
+    <article
+      class="card"
+      [class.card--large]="variant() === 'large'"
+      [class.card--compact]="variant() === 'compact'"
+    >
+      <div class="card__header">
+        <p class="card__category">{{ poll().category }}</p>
+        <h3 class="card__title">{{ poll().title }}</h3>
+      </div>
+      @if (poll().endsAt) {
+        <span class="card__badge">{{ poll().endsAt | daysLeft }}</span>
+      }
+    </article>
+  </a>
+}

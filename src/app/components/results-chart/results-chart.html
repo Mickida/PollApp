@@ -1,0 +1,30 @@
+<h2 class="title">Survey results <span class="title__live">LIVE</span></h2>
+
+@if (total() === 0) {
+  <p class="empty-hint">
+    Results will be shown here after participants complete the survey.
+  </p>
+  <p class="empty-message">There are no answers yet.</p>
+}
+
+@else {
+  @for (q of poll().questions; track q.id; let qi = $index) {
+    <div class="question-block">
+      <h3 class="question-block__title">
+        <span class="question-block__num">{{ qi + 1 }}.</span>
+        <span>{{ q.text }}</span>
+      </h3>
+      <ul class="bars">
+        @for (ans of q.answers; track ans.id; let ai = $index) {
+          <li class="bar-row">
+            <span class="bar-row__letter">{{ letter(ai) }}</span>
+            <div class="bar-track">
+              <div class="bar-fill" [style.width.%]="percent(qi, ai)"></div>
+            </div>
+            <span class="bar-row__percent">{{ percent(qi, ai) }}%</span>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+}

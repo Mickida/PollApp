@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Speech bubble with horizontal bars — logo concept -->
+  <path d="M2 3 H30 Q31 3 31 4 V20 Q31 21 30 21 H18 L16 25 L14 21 H2 Q1 21 1 20 V4 Q1 3 2 3Z" fill="#ffb770"/>
+  <rect x="6" y="8"  width="20" height="3" rx="1.5" fill="#35263a"/>
+  <rect x="6" y="13" width="14" height="3" rx="1.5" fill="#35263a"/>
+</svg>

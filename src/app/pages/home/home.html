@@ -1,0 +1,157 @@
+<div class="home">
+  <section class="hero">
+    <div class="hero__text">
+      <h1 class="hero__title">Collect Feedback,<br />Unlock Ideas</h1>
+      <p class="hero__lead">
+        Create and share surveys in minutes – from team events to workplace
+        culture. Collect opinions, engage your audience, and turn feedback into
+        action.
+      </p>
+      <a
+        class="hero__cta"
+        [class.hero__cta--clicked]="ctaClicked()"
+        href="/new"
+        (click)="onCtaClick($event)"
+        aria-label="New survey"
+      >
+        <img
+          class="hero__cta__state hero__cta__state--default"
+          src="/images/hero/hero_btns/ns-hover.png"
+          alt="New survey"
+        />
+        <img
+          class="hero__cta__state hero__cta__state--hover"
+          src="/images/hero/hero_btns/ns-hover.png"
+          alt=""
+          aria-hidden="true"
+        />
+        <img
+          class="hero__cta__state hero__cta__state--active"
+          src="/images/hero/hero_btns/ns-hover-checked.png"
+          alt=""
+          aria-hidden="true"
+        />
+      </a>
+    </div>
+    <div class="hero__illustration">
+      <div class="phone-scene">
+        <img class="phone-scene__phone" src="/images/hero/hero_handy/phone.png" alt="" />
+        <img
+          class="phone-scene__floater phone-scene__floater--bubble"
+          src="/images/hero/hero_handy/chat-bubble.png"
+          alt=""
+        />
+        <img
+          class="phone-scene__floater phone-scene__floater--question"
+          src="/images/hero/hero_handy/question-mark.png"
+          alt=""
+        />
+        <img
+          class="phone-scene__floater phone-scene__floater--star"
+          src="/images/hero/hero_handy/star.png"
+          alt=""
+        />
+        <img
+          class="phone-scene__floater phone-scene__floater--check"
+          src="/images/hero/hero_handy/checkmark.png"
+          alt=""
+        />
+        <span class="phone-scene__dot phone-scene__dot--1"></span>
+        <span class="phone-scene__dot phone-scene__dot--2"></span>
+        <span class="phone-scene__dot phone-scene__dot--3"></span>
+      </div>
+    </div>
+  </section>
+
+  <h2 class="section-title">Your surveys</h2>
+
+  <section class="ending-soon">
+    <h3 class="ending-soon__title">Ending soon surveys</h3>
+    <div class="ending-soon__grid">
+      @for (poll of endingSoon(); track poll.id) {
+        <app-survey-card [poll]="poll" variant="large" />
+      } @empty {
+        <p class="empty-hint">Keine bald endenden Umfragen.</p>
+      }
+    </div>
+  </section>
+
+  <section class="surveys">
+    <div class="surveys__toolbar">
+      <div class="surveys__tabs">
+        <button
+          type="button"
+          class="tab"
+          [class.tab--active]="selectedTab() === 'active'"
+          (click)="selectTab('active', $event)"
+        >
+          Active survey
+        </button>
+        <button
+          type="button"
+          class="tab"
+          [class.tab--active]="selectedTab() === 'past'"
+          (click)="selectTab('past', $event)"
+        >
+          Past survey
+        </button>
+      </div>
+      <div class="sort-dropdown">
+        <button
+          type="button"
+          class="sort-dropdown__trigger"
+          (click)="toggleSort()"
+          [attr.aria-expanded]="sortOpen()"
+          aria-haspopup="listbox"
+        >
+          <img
+            class="sort-dropdown__img"
+            [src]="sortOpen()
+              ? '/images/hero/hero_btns/drop-down-expand.png'
+              : (selectedCategory()
+                  ? '/images/hero/hero_btns/drop-down-category.png'
+                  : '/images/hero/hero_btns/drop-down-default.png')"
+            alt="Sort by categories"
+          />
+        </button>
+        <p class="sort-dropdown__selected">{{ selectedCategory() }}</p>
+        @if (sortOpen()) {
+          <ul class="sort-dropdown__list" role="listbox">
+            @for (cat of categories; track cat) {
+              <li>
+                <button
+                  type="button"
+                  class="sort-dropdown__item"
+                  [class.sort-dropdown__item--active]="selectedCategory() === cat"
+                  (click)="selectCategory(cat)"
+                  role="option"
+                  [attr.aria-selected]="selectedCategory() === cat"
+                >
+                  {{ cat }}
+                </button>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    </div>
+
+    <div class="surveys__scroll-wrapper">
+      <div class="surveys__grid" (scroll)="onGridScroll($event)">
+        @for (poll of displayedPolls(); track poll.id) {
+          <app-survey-card [poll]="poll" />
+        } @empty {
+          <p class="empty-hint">No surveys found in this category.</p>
+        }
+      </div>
+      @if (showScrollbar()) {
+        <div class="surveys__scrollbar">
+          <div
+            class="surveys__scrollbar-thumb"
+            [style.--scroll-progress]="scrollProgress()"
+          ></div>
+        </div>
+      }
+    </div>
+  </section>
+</div>
