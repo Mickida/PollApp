@@ -116,6 +116,20 @@ export class NewSurvey {
     }
   }
 
+  /** Clears the text of a single answer without removing the row. */
+  clearAnswerText(qIndex: number, aIndex: number): void {
+    this.answersAt(qIndex).at(aIndex).setValue('');
+  }
+
+  /** When only 2 answers remain, clears the text field. With 3+ answers, deletes the row. */
+  handleAnswerAction(qIndex: number, aIndex: number): void {
+    if (this.answersAt(qIndex).length <= 2) {
+      this.clearAnswerText(qIndex, aIndex);
+    } else {
+      this.removeAnswer(qIndex, aIndex);
+    }
+  }
+
   /** Navigates back to the home page after a short exit-animation delay. */
   onCancel(): void {
     setTimeout(() => this.router.navigate(['/']), 100);

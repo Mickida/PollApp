@@ -167,8 +167,8 @@
                   <button
                     type="button"
                     class="icon-btn"
-                    (click)="removeAnswer(i, j)"
-                    [disabled]="answersAt(i).length <= 2"
+                    (click)="handleAnswerAction(i, j)"
+                    [disabled]="answersAt(i).length <= 2 && !answersAt(i).at(j).value"
                     aria-label="Remove answer"
                   ></button>
                 </div>
